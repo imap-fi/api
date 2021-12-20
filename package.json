@@ -1,0 +1,26 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "Simple API with a Discord bot for imap.fi",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imap-fi/api.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/imap-fi/api/issues"
+  },
+  "homepage": "https://github.com/imap-fi/api#readme",
+  "dependencies": {
+    "@hapi/hapi": "^20.2.1",
+    "dotenv": "^10.0.0",
+    "imapflow": "^1.0.78",
+    "mailcow-api": "^1.2.6",
+    "uuid": "^8.3.2"
+  }
+}
