@@ -11,7 +11,7 @@ const init = async () => {
   );
 
   const server = Hapi.server({
-    port: 3000,
+    port: process.env.PORT || 3000,
     host: "localhost",
   });
 
@@ -47,7 +47,7 @@ const init = async () => {
         });
 
       return {
-        success
+        success,
       };
     },
   });
@@ -72,6 +72,12 @@ const init = async () => {
         return h
           .response({ message: "Salasana puuttuu.", requestId })
           .code(400); //.message('Password required')
+
+      const mailboxInfo = await mcc.getMailboxes(`${local_part}@imap.fi`)
+      if (Object.keys(mailboxInfo).length !== 0)
+        return h
+          .response({ message: "Käyttäjänimi on jo varattu.", requestId })
+          .code(410); //.message('Password required')
 
       const name = local_part.replace(".", " ");
 
