@@ -41,10 +41,10 @@ const init = async () => {
       let success = true;
       const token = uuidv4();
       try {
-        await imapClient.connect()
+        await imapClient.connect();
         tokens[token] = {
           email, // only local part
-          time: + new Date()
+          time: +new Date(),
         };
       } catch (error) {
         success = false;
@@ -52,7 +52,7 @@ const init = async () => {
 
       return {
         success,
-        token: success ? token : false
+        token: success ? token : false,
       };
     },
   });
@@ -78,7 +78,7 @@ const init = async () => {
           .response({ message: "Salasana puuttuu.", requestId })
           .code(400); //.message('Password required')
 
-      const mailboxInfo = await mcc.getMailboxes(`${local_part}@imap.fi`)
+      const mailboxInfo = await mcc.getMailboxes(`${local_part}@imap.fi`);
       if (Object.keys(mailboxInfo).length !== 0)
         return h
           .response({ message: "Käyttäjänimi on jo varattu.", requestId })
@@ -109,9 +109,34 @@ const init = async () => {
   server.route({
     method: "GET",
     path: "/account",
-    handler: (request, h) => {
+    handler: async (request, h) => {
+      const requestId = uuidv4();
+
+      // TODO: tarkastukset eivät ole kunnossa (jos ei ole mitään query dataa tai authorization headeria ei ole olemassa)
+
+      const token = request.headers.authorization.replace("Bearer ", "")
+      const local_part = request.query.email;
+
+      if (!local_part)
+        return h
+          .response({ message: "Sähköposti puuttuu.", requestId })
+          .code(400); //.message('Email required')
+      if (!token)
+        return h
+          .response({ message: "Autentikaatioavain puuttuu.", requestId })
+          .code(400); //.message('Password required')
+
+
+
+      if (!(token in tokens))
+        return h
+          .response({ message: "Ei pääsyä (kokeile kirjautua uudestaan).", requestId })
+          .code(401);
+
+      const mailBox = await mcc.getMailboxes(`${local_part}@imap.fi`);
+      
       return {
-        h: "Hello World!",
+        mailBox,
       };
     },
   });
