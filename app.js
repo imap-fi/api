@@ -4,6 +4,8 @@ const { MailcowApiClient } = require("mailcow-api");
 const { v4: uuidv4 } = require("uuid");
 const { ImapFlow } = require("imapflow");
 
+let tokens = {};
+
 const init = async () => {
   const mcc = new MailcowApiClient(
     process.env.MAILCOW_API_BASEURL,
@@ -21,7 +23,6 @@ const init = async () => {
     method: "POST",
     path: "/auth",
     handler: async (request, h) => {
-      const requestId = uuidv4();
       const email = request.payload.email;
       const pass = request.payload.password;
 
@@ -38,15 +39,20 @@ const init = async () => {
       });
 
       let success = true;
+      const token = uuidv4();
       try {
-        await imapClient.connect()        
+        await imapClient.connect()
+        tokens[token] = {
+          email, // only local part
+          time: + new Date()
+        };
       } catch (error) {
         success = false;
       }
 
       return {
         success,
-        requestId
+        token: success ? token : false
       };
     },
   });
