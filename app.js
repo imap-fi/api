@@ -20,15 +20,15 @@ const init = async () => {
   server.route({
     method: "POST",
     path: "/auth",
-    handler: (request, h) => {
+    handler: async (request, h) => {
       const requestId = uuidv4();
       const email = request.payload.email;
       const pass = request.payload.password;
 
       const imapClient = new ImapFlow({
-        host: "imap.fi",
-        port: 143,
-        secure: false,
+        host: "server.imap.fi",
+        port: 993,
+        secure: true,
         disableAutoIdle: true,
         rejectUnauthorized: false,
         auth: {
@@ -37,17 +37,16 @@ const init = async () => {
         },
       });
 
-      imapClient
-        .connect()
-        .then(() => {
-          let success = true;
-        })
-        .catch(() => {
-          let success = false;
-        });
+      let success = true;
+      try {
+        await imapClient.connect()        
+      } catch (error) {
+        success = false;
+      }
 
       return {
         success,
+        requestId
       };
     },
   });
