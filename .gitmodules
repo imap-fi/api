@@ -1,0 +1,3 @@
+[submodule "mailcow-api"]
+	path = mailcow-api
+	url = https://github.com/firstdorsal/mailcow-api.git

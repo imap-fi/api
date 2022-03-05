@@ -19,8 +19,9 @@
   "dependencies": {
     "@hapi/hapi": "^20.2.1",
     "dotenv": "^10.0.0",
-    "imapflow": "^1.0.78",
-    "mailcow-api": "^1.2.7",
+    "mailcow-api": "file:mailcow-api",
+    "mysql": "^2.18.1",
+    "twin-bcrypt": "^2.1.1",
     "uuid": "^8.3.2"
   }
 }

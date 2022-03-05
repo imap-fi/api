@@ -7,5 +7,7 @@ Obtain these env variables:
 
 ```env
 MAILCOW_API_KEY='YOUR MAILCOW API KEY'
-MAILCOW_API_BASEURL='https://mail.example.com' //no trailing slashes 
+MAILCOW_API_BASEURL='https://mail.example.com' //no trailing slashes
+PORT=3001
+DBROOT='MAILCOW ROOT DB PASS'
 ```
