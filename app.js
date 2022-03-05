@@ -16,6 +16,12 @@ const init = async() => {
     const server = Hapi.server({
         port: process.env.PORT || 3000,
         host: "0.0.0.0",
+        "routes": {
+            "cors": {
+                "origin": ["http://localhost:3000", "https://imap.fi"],
+                "credentials": true
+            }
+        }
     });
 
     server.route({
