@@ -6,10 +6,6 @@ WORKDIR /app
 # git wants work tree
 COPY . .
 
-RUN apt-get -y install git
-
-RUN git submodule update --init --recursive
-
 RUN npm install
 
 FROM debian:buster-slim

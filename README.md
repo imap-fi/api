@@ -1,6 +1,15 @@
 # api
 Simple API with a Discord bot for imap.fi
 
+## Install
+
+```
+
+apt-get -y install git
+
+git submodule update --init --recursive
+```
+
 ## Usage
 
 Obtain these env variables:
