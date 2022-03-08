@@ -25,6 +25,17 @@ const init = async() => {
     });
 
     server.route({
+        method: "GET",
+        path: "/heartbeat",
+        handler: async(request, h) => {
+            return h
+                .response({ message: "up" })
+                .code(200)
+                .message('I am still alive');
+        },
+    });
+
+    server.route({
         method: "POST",
         path: "/auth",
         handler: require('./handlers/auth').default,
